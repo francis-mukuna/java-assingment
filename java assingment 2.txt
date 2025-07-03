@@ -1,0 +1,71 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class RadioButtonDemo extends JFrame implements ActionListener {
+    // Declare radio buttons and label for displaying pet image
+    JRadioButton bird, cat, dog, rabbit, pig;
+    JLabel petImage;
+
+    public RadioButtonDemo() {
+        setTitle("Pet Image Viewer");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+
+        // Initialize radio buttons
+        bird = new JRadioButton("Bird");
+        cat = new JRadioButton("Cat");
+        dog = new JRadioButton("Dog");
+        rabbit = new JRadioButton("Rabbit");
+        pig = new JRadioButton("Pig");
+
+        // Group radio buttons
+        ButtonGroup group = new ButtonGroup();
+        group.add(bird);
+        group.add(cat);
+        group.add(dog);
+        group.add(rabbit);
+        group.add(pig);
+
+        // Add action listeners
+        bird.addActionListener(this);
+        cat.addActionListener(this);
+        dog.addActionListener(this);
+        rabbit.addActionListener(this);
+        pig.addActionListener(this);
+
+        // Add radio buttons to frame
+        add(bird);
+        add(cat);
+        add(dog);
+        add(rabbit);
+        add(pig);
+
+        // Image display label
+        petImage = new JLabel();
+        petImage.setPreferredSize(new Dimension(200, 200));
+        petImage.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+        add(petImage);
+
+        setSize(400, 450);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String pet = ((JRadioButton) e.getSource()).getText();
+        String path = "/images/" + pet.toLowerCase() + ".png";
+
+        // Load and scale image
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource(path));
+        Image scaledImage = originalIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+        petImage.setIcon(new ImageIcon(scaledImage));
+
+        JOptionPane.showMessageDialog(this, "You selected: " + pet);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(RadioButtonDemo::new);
+    }
+}
